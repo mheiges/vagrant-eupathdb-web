@@ -1,0 +1,14 @@
+---
+:backends:
+    - yaml
+    
+:yaml:
+    :datadir: /vagrant/puppet/hieradata
+
+:hierarchy:
+    - %{fqdn}
+    - %{domain}
+    - common
+    
+:logger:
+    - puppet

@@ -1,0 +1,39 @@
+
+args = {}
+args[:hostname] = ARGV[1] || 'sa.apidb.org'
+
+system('./checkout-puppet.sh')
+
+Vagrant.configure('2') do |config|
+
+	config.vm.box = 'puppetlabs/centos-6.6-64-puppet'
+  config.vm.box_url = 'https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-puppet'
+
+#  if Vagrant.has_plugin?('landrush')
+#   config.landrush.enabled = true
+#   config.landrush.tld = 'vm'
+#  end
+
+puts "Hostname: #{args[:hostname]}"
+  config.vm.define args[:hostname] do |virtm|
+
+    config.vm.hostname = "#{args[:hostname]}" 
+
+    config.vm.network :forwarded_port, guest: 80, host: 1080, auto_correct: true
+    config.vm.network :forwarded_port, guest: 443, host: 10443, auto_correct: true
+    
+    config.vm.provision :puppet do |puppet|
+      puppet.options = '--disable_warnings=deprecations'
+      puppet.manifests_path = 'puppet/manifests'
+      puppet.manifest_file = 'site.pp'
+      puppet.hiera_config_path = 'hiera.yaml'
+      puppet.module_path = ['puppet/modules', 'puppet/locations', 'puppet/projects']
+    end
+
+    config.vm.provider :virtualbox do |v|
+      v.name = "#{args[:hostname]}"
+    end
+
+  end
+
+end
