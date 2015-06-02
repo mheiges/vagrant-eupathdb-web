@@ -1,0 +1,6 @@
+---
+
+ebrc_common_web_dirs::parent_dir : /var/www/Common
+ebrc_common_web_dirs::owner : root
+ebrc_common_web_dirs::group : root
+

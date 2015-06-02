@@ -20,5 +20,5 @@ Nothing is functional at this time.
 
 Puppet manifests are applied during `vagrant provision`. To manually apply manifests on the VM, run:
 
-    sudo puppet apply --hiera_config=/vagrant/hiera.yaml --modulepath=/vagrant/puppet/modules:/vagrant/puppet/locations:/vagrant/puppet/projects  /vagrant/puppet/manifests/site.pp
+    sudo puppet apply --hiera_config=/vagrant/hiera.yaml --modulepath=/vagrant/puppet/modules/forge:/vagrant/puppet/modules/custom:/vagrant/puppet/locations:/vagrant/puppet/projects  /vagrant/puppet/manifests
     
