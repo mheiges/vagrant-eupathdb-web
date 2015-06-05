@@ -1,0 +1,1 @@
+sudo puppet apply --hiera_config=/vagrant/puppet/hiera.yaml --modulepath=/vagrant/puppet/modules:/vagrant/puppet/modules/forge:/vagrant/puppet/modules/custom:/vagrant/puppet/locations:/vagrant/puppet/projects /vagrant/puppet/manifests
