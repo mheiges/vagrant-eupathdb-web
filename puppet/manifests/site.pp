@@ -1,16 +1,6 @@
 
-class { '::apache': }
-
-class { '::ebrc_apache':
-  require => Class['::apache']
-}
-
-exec { 'create-default-index':
-  command => 'echo Hello World > /var/www/html/index.html',
-  path    => '/bin',
-  creates => '/var/www/html/index.html',
-  require => Class['apache'],
-}
+#include profiles::ebrc_wdk_host
+include profiles::gus_wdk_host
 
 firewall { '100 allow http':
   chain  => 'INPUT',

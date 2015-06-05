@@ -22,13 +22,14 @@ puts "Hostname: #{args[:hostname]}"
     config.vm.network :forwarded_port, guest: 443, host: 10443, auto_correct: true
  
     config.vm.provision :shell, :path   => "install-puppet-modules.sh"
+    config.vm.provision :shell, :inline => "cp /vagrant/bash_history ~vagrant/.bash_history"
 
     config.vm.provision :puppet do |puppet|
       puppet.options = '--disable_warnings=deprecations'
       puppet.manifests_path = 'puppet/manifests'
       puppet.manifest_file = ''
-      puppet.hiera_config_path = 'hiera.yaml'
-      puppet.module_path = ['puppet/modules/forge', 'puppet/modules/custom']
+      puppet.hiera_config_path = 'puppet/hiera.yaml'
+      puppet.module_path = ['puppet/modules', 'puppet/modules/forge', 'puppet/modules/custom']
     end
 
     config.vm.provider :virtualbox do |v|
