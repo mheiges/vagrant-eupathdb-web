@@ -1,0 +1,15 @@
+Use update-ca-trust (provided by ca-certificates RPM - a dependency of openssl) to 
+manage consolidated and dynamic configuration of CA certificates and associated trust 
+
+Pilfered from 
+https://code.google.com/p/lutak/source/browse/ca/?r=1e0a3d91fb06c27b09489434a497d90c7143b885
+
+
+In hieradata, set 
+  ca::trust::enable: true
+
+In manifest, use
+
+ ca::trust::add { 'my-crt':
+    source => 'puppet:///modules/joint/my-ca-rsa.crt',
+ }
