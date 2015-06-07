@@ -7,6 +7,7 @@ mkdir -p "${module_path}"
 for module_src in \
                     puppetlabs-firewall \
                     puppetlabs-java_ks \
+                    puppetlabs-tomcat \
                     puppetlabs-apache; do
 
   module="${module_src#*-}"

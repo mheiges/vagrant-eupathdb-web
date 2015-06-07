@@ -2,7 +2,8 @@
 # Leverages puppetlabs/java_ks
 #
 # Requirements
-#   - EuPathDB's CA must already be on the file system (see profile::apidb_ca_bundle).
+#   - EuPathDB's CA must already be on the file system 
+#     (see profile::apidb_ca_bundle).
 #   - keytool command must be available (provided by modern Java packages)
 class profiles::apidb_ca_keystore {
 
@@ -18,7 +19,7 @@ class profiles::apidb_ca_keystore {
     fail("profiles::apidb_ca_keystore: Unsupported osfamily: ${::osfamily}")
   }
 
-  java_ks { "${alias}":
+  java_ks { $alias:
     ensure       => latest,
     path         => ["${java_home}/bin", '/usr/bin'],
     certificate  => "${certdir}/${cacert}",

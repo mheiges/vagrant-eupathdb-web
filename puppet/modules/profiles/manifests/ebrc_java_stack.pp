@@ -17,8 +17,8 @@ class profiles::ebrc_java_stack {
     java_home => hiera('ebrc_java::java_home'),
   }
 
-  Class['::ebrc_yum_repo'] -> 
-  Class['::ebrc_java'] -> 
+  Class['::ebrc_yum_repo'] ->
+  Class['::ebrc_java'] ->
   Class['::profiles::apidb_ca_bundle'] ->
   Class['::profiles::apidb_ca_keystore']
 

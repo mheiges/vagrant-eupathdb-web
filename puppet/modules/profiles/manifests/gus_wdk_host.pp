@@ -5,6 +5,8 @@ class profiles::gus_wdk_host {
   include ::ebrc_yum_repo
   include ::profiles::apidb_ca_bundle
   include ::profiles::ebrc_java_stack
+  include ::profiles::ebrc_tomcat
+
 #  include ::profiles::ebrc_test_stack
 #  include ::ebrc_ant
 

@@ -2,7 +2,7 @@
 java_keystore_target: /etc/pki/tls/certs/cacerts
 java_keystore_passwd: graeo5locza
 
-apidb_ca::cacert_dest: /etc/pki/tls/certs/apidb-ca-rsa.crt
+ebrc_ca::cacert: apidb-ca-rsa.crt
 
 ebrc_common_web_dirs::parent_dir : /var/www/Common
 ebrc_common_web_dirs::owner : root
@@ -12,3 +12,7 @@ ebrc_java::packages:
   - jdk-1.7.0_25-fcs
   - java-1.5.0-sun-devel
 ebrc_java::java_home: /usr/java/jdk1.7.0_25
+
+ebrc_tomcat::packages:
+  - tomcat-6.0.43
+  - tomcat-7.0.59
