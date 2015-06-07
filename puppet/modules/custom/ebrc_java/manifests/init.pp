@@ -35,11 +35,10 @@
 #
 # Copyright 2015 Your name here, unless otherwise noted.
 #
-class ebrc_java {
-
-  $packages = hiera('ebrc_java::packages')
-  $java_home = hiera('ebrc_java::java_home')
-  $java_keystore_target = hiera('java_keystore_target')
+class ebrc_java (
+  $packages,
+  $java_home,
+) {
 
   package { $packages :
     ensure  => installed,
