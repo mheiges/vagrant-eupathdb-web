@@ -3,9 +3,9 @@
 #
 # Requirements
 #   - EuPathDB's CA must already be on the file system 
-#     (see profile::apidb_ca_bundle).
+#     (see profile::ebrc_ca_bundle).
 #   - keytool command must be available (provided by modern Java packages)
-class profiles::apidb_ca_keystore {
+class profiles::ebrc_ca_keystore {
 
   $alias = 'eupathdbinternalca'
   $cacert = hiera('ebrc_ca::cacert')
@@ -16,7 +16,7 @@ class profiles::apidb_ca_keystore {
   if $::osfamily == 'redhat' {
     $certdir = '/etc/pki/tls/certs'
   } else {
-    fail("profiles::apidb_ca_keystore: Unsupported osfamily: ${::osfamily}")
+    fail("profiles::ebrc_ca_keystore: Unsupported osfamily: ${::osfamily}")
   }
 
   java_ks { $alias:

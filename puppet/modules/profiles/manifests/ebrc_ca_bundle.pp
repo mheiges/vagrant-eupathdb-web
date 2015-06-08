@@ -1,11 +1,10 @@
 # install EuPathDB BRC's Certificate Authority to filesystem and add to
 # system CA bundle using ca-certificates utilities.
-class profiles::apidb_ca_bundle {
+class profiles::ebrc_ca_bundle {
 
-  $ca_name = 'apidb-ca-rsa.crt'
+  $ca_name = hiera('ebrc_ca::cacert')
 
-  class { 'ca':
-    name   => 'apidb-ca-rsa.crt',
+  ca::trust::add { $ca_name:
     source => "puppet:///modules/apidb_ca/${ca_name}",
   }
 
