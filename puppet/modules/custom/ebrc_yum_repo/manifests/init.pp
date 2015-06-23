@@ -43,8 +43,18 @@ class ebrc_yum_repo {
     require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-EUPATHDB'],
     baseurl  => "http://pulp.uga.apidb.org/pulp/repos/eupathdb/${::operatingsystemmajrelease}/${::architecture}",
     priority => 1,
-    enabled  =>  1,
-    gpgcheck =>  1,
+    enabled  => 1,
+    gpgcheck => 1,
+  }
+
+  yumrepo { 'eupathdb-fasttrack':
+    descr    => "EuPathDB Fasttrack Packages for RHEL/CentOS ${::operatingsystemmajrelease} - ${::architecture}",
+    gpgkey   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EUPATHDB',
+    require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-EUPATHDB'],
+    baseurl  => "http://pulp.uga.apidb.org/pulp/repos/eupathdb/${::operatingsystemmajrelease}/fasttrack/${::architecture}",
+    priority => 1,
+    enabled  => 1,
+    gpgcheck => 0,
   }
 
   file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-EUPATHDB':

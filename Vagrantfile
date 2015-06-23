@@ -23,6 +23,8 @@ puts "Hostname: #{args[:hostname]}"
  
     config.vm.provision :shell, :path   => "install-puppet-modules.sh"
     config.vm.provision :shell, :inline => "cp /vagrant/bash_history ~vagrant/.bash_history"
+    config.vm.provision :shell, :inline => 'groupadd -g 300 tomcat'
+    config.vm.provision :shell, :inline => "useradd -M -u 303 -s /sbin/nologin -d /usr/local/tomcat_instances/TemplateDB -c 'TemplateDB Tomcat instance owner' -g tomcat tomcat_3"
 
     config.vm.provision :puppet do |puppet|
       puppet.options = '--disable_warnings=deprecations'

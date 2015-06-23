@@ -12,7 +12,7 @@ class profiles::ebrc_tomcat {
     install_from_source => false,
   }
 
-  profiles::ebrc_tomcat_instance { $packages:
+  profiles::ebrc_tomcat_package { $packages:
     require => Class['::ebrc_yum_repo']
   }
 
