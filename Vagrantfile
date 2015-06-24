@@ -13,7 +13,6 @@ Vagrant.configure('2') do |config|
 #   config.landrush.tld = 'vm'
 #  end
 
-puts "Hostname: #{args[:hostname]}"
   config.vm.define args[:hostname] do |virtm|
 
     config.vm.hostname = "#{args[:hostname]}" 
