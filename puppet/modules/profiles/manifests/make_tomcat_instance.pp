@@ -15,9 +15,8 @@ define profiles::make_tomcat_instance {
   $pg_jdbc_path   = $instances_data[$name]['pg_jdbc_path']
 
 
-  
-  tomcat_instance_framework::instance { $name:
-    instance_name  => $name,
+  tcif_instance { $name:
+    ensure         => present,
     http_port      => $http_port,
     ajp13_port     => $ajp13_port,
     jmx_port       => $jmx_port,
@@ -27,4 +26,16 @@ define profiles::make_tomcat_instance {
     pg_jdbc_path   => $pg_jdbc_path,
     require        => Class['tomcat_instance_framework'],
   }
+
+#  tomcat_instance_framework::instance { $name:
+#    instance_name  => $name,
+#    http_port      => $http_port,
+#    ajp13_port     => $ajp13_port,
+#    jmx_port       => $jmx_port,
+#    tomcat_user    => $tomcat_user,
+#    template_ver   => $template_ver,  
+#    orcl_jdbc_path => $orcl_jdbc_path,
+#    pg_jdbc_path   => $pg_jdbc_path,
+#    require        => Class['tomcat_instance_framework'],
+#  }
 }

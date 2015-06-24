@@ -16,7 +16,7 @@ define tomcat_instance_framework::instance (
   if $instance_name == undef { fail("'instance_name' is not defined") }
   if $http_port == undef { fail("'http_port' is not defined") }
   if $ajp13_port == undef { fail("'ajp13_port' is not defined") }
-  if $jmx_port == undef { fail("'jmx_port' is not defined") }
+  #if $jmx_port == undef { fail("'jmx_port' is not defined") }
   if $tomcat_user == undef { fail("'tomcat_user' is not defined") }
   if $template_ver == undef { fail("'template_ver' is not defined") }
 
@@ -40,7 +40,7 @@ define tomcat_instance_framework::instance (
     TOMCAT_USER=$tomcat_user                  \
     TEMPLATE=$template_ver
   "
-  exec { 'make':
+  exec { "make $instance_name":
     command => $make_cmd,
     path    => ['/usr/local/bin', '/bin', '/usr/bin'],
     cwd     => $instances_dir,

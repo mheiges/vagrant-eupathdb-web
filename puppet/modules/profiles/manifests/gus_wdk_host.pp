@@ -17,6 +17,8 @@ class profiles::gus_wdk_host {
 
   profiles::make_tomcat_instance{ 'TemplateDB': }
 
+
+
   #Class['::ebrc_yum_repo'] -> Stage["main"]
 
 #  include ::ebrc_ant
