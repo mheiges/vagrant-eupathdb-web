@@ -33,18 +33,18 @@ define tomcat_instance_framework::instance (
   }
 
   $make_cmd = "make install                   \
-    INSTANCE=$instance_name                   \
-    HTTP_PORT=$http_port                      \
-    AJP13_PORT=$ajp13_port                    \
-    JMX_PORT=$jmx_port                        \
-    TOMCAT_USER=$tomcat_user                  \
-    TEMPLATE=$template_ver
+    INSTANCE=${instance_name}                   \
+    HTTP_PORT=${http_port}                      \
+    AJP13_PORT=${ajp13_port}                    \
+    JMX_PORT=${jmx_port}                        \
+    TOMCAT_USER=${tomcat_user}                  \
+    TEMPLATE=${template_ver}
   "
-  exec { "make $instance_name":
+  exec { "make ${instance_name}":
     command => $make_cmd,
     path    => ['/usr/local/bin', '/bin', '/usr/bin'],
     cwd     => $instances_dir,
-    creates => "${instances_dir}/$instance_name",
+    creates => "${instances_dir}/${instance_name}",
   }
 
 }
