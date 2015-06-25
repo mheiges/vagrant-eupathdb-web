@@ -12,22 +12,8 @@ class profiles::gus_wdk_host {
 
   include ::profiles::ebrc_ca_bundle
   include ::profiles::ebrc_java_stack
-  include ::profiles::ebrc_tomcat
+  include ::profiles::ebrc_tomcat_instances_stack
   include ::profiles::ebrc_postgresql94
   include ::profiles::ebrc_test_stack
 
-  profiles::make_tomcat_instance{ ['TemplateDB', 'FooDB']:
-    require => Class['::profiles::ebrc_postgresql94'],
-  }
-
-
-
-  #Class['::ebrc_yum_repo'] -> Stage["main"]
-
-#  include ::ebrc_ant
-
-#  Class ['::ebrc_yum_repo'] -> Class['::profiles::ebrc_java_stack']
-#  Class['::profiles::ebrc_ca_bundle'] -> Class['::profiles::ebrc_java_stack']
-
-#  Class['::profiles::ebrc_java_stack'] -> Class['profiles::ebrc_test_stack']
 }
