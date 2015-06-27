@@ -5,7 +5,13 @@ class profiles::ebrc_tomcat_instances_stack {
   include ::profiles::ebrc_tomcat
   include ::profiles::ebrc_postgresql94
 
-  profiles::make_tomcat_instance{ ['TemplateDB', 'FooDB']:
+#  profiles::make_tomcat_instance{ ['TemplateDB', 'FooDB']:
+#    ensure => 'present',
+#    require => Class['::profiles::ebrc_postgresql94'],
+#  }
+
+  profiles::make_tomcat_instance{ ['TooDB']:
+    ensure => 'running',
     require => Class['::profiles::ebrc_postgresql94'],
   }
 

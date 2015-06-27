@@ -1,0 +1,5 @@
+fixtures:                       
+  symlinks:
+    tomcat_instance_framework: "#{source_dir}"
+
+

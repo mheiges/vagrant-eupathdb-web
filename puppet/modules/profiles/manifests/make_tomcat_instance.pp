@@ -1,6 +1,6 @@
 # install ToxoDB tomcat instance using the Tomcat Instance Framework
 
-define profiles::make_tomcat_instance {
+define profiles::make_tomcat_instance($ensure) {
 
   include tomcat_instance_framework
 
@@ -16,7 +16,7 @@ define profiles::make_tomcat_instance {
 
 
   tcif_instance { $name:
-    ensure         => present,
+    ensure         => $ensure,
     http_port      => $http_port,
     ajp13_port     => $ajp13_port,
     jmx_port       => $jmx_port,

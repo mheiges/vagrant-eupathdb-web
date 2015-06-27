@@ -2,27 +2,42 @@ Puppet::Type.newtype(:tcif_instance) do
   desc "Manage instances of Tomcat"
 
   ensurable do
-    newvalue(:present) do
-      provider.create
+
+    # present (exists and running)
+    # absent (not exists and not running)
+    # disabled (exists and not running)
+    # quantum (not exists and running)
+
+    newvalue(:enabled) do
+      provider.enable
     end
-# present (exists and running)
-# absent (not exists and not running)
-# disabled (exits and not running)
+    aliasvalue(:present, :enabled)
 
     newvalue(:absent) do
       provider.delete
     end
 
-    defaultto :present
-  end
+    newvalue(:disabled) do
+      provider.disable
+    end
 
-#  newproperty(:ensure, :parent => Puppet::Property::Ensure) do
-#    defaultto :present
-#  end
-  
-  newparam(:state) do
-    newvalues "disabled", "running", "stopped"
-    defaultto :running
+    defaultto :enabled
+
+    def retrieve
+      if provider.enabled?
+puts "retrieve enabled"
+        return :enabled
+      elsif provider.enabled_not_running?
+puts "retrieve enabled_not_running"
+        return :disabled
+      elsif provider.disabled?
+puts "retrieve disbabled"
+        return :disabled
+      else
+puts "retrieve absent"
+        return :absent
+      end
+    end
   end
 
   newparam(:instance_name, :namevar => true) do

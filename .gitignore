@@ -1,4 +1,5 @@
-.*
+.DS_Store
+.vagrant
 puppet/modules/forge/*
 
 !.gitignore
