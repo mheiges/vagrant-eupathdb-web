@@ -3,38 +3,31 @@ Puppet::Type.newtype(:tcif_instance) do
 
   ensurable do
 
-    # present (exists and running)
+    # running (exists and running)
+    # stopped (exists and not running)
     # absent (not exists and not running)
-    # disabled (exists and not running)
-    # quantum (not exists and running)
 
-    newvalue(:enabled) do
-      provider.enable
+    newvalue(:running) do
+      provider.set_present_and_running
     end
-    aliasvalue(:present, :enabled)
+    aliasvalue(:present, :running)
+
+    newvalue(:stopped) do
+      provider.set_present_and_stopped
+    end
 
     newvalue(:absent) do
       provider.delete
     end
 
-    newvalue(:disabled) do
-      provider.disable
-    end
-
-    defaultto :enabled
+    defaultto :running
 
     def retrieve
-      if provider.enabled?
-puts "retrieve enabled"
-        return :enabled
-      elsif provider.enabled_not_running?
-puts "retrieve enabled_not_running"
-        return :disabled
-      elsif provider.disabled?
-puts "retrieve disbabled"
-        return :disabled
+      if provider.present_and_running?
+        return :running
+      elsif provider.present_and_stopped?
+        return :stopped
       else
-puts "retrieve absent"
         return :absent
       end
     end

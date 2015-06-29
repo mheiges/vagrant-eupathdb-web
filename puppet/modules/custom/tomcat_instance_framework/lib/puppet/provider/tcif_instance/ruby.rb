@@ -2,22 +2,13 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
 
   commands :make => "make", :instance_manager => "instance_manager"
 
-  # Instance dir is present and instance is running
-  def enabled?
-    return  active_instance_dir_exists? && running?
+  # instance directory exists and jsvc process running
+  def present_and_running?
+    return active_instance_dir_exists? && running?
   end
 
-  def enabled_not_running?
-    return active_instance_dir_exists?
-  end
-
-  # Instance dir is present with '_' name prefix and assumed not running
-  def disabled?
-    if inactive_instance_dir_exists? && active_instance_dir_exists?
-      raise Puppet::Error,
-        "Both active and inactive directories exist for " +
-        "Tomcat instance #{resource[:name]}. I'm unable to set to disabled."
-    end
+  # instance directory exists and jsvc process not running
+  def present_and_stopped?
     return inactive_instance_dir_exists?
   end
 
@@ -29,6 +20,17 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
     return File.directory?( @resource['instances_dir'] + "/" + "_" + @resource[:name] )
   end
 
+  def running?
+    execpipe("#{command(:instance_manager)} status") do |out|
+      out.each_line do |line|
+        if line =~ /^#{@resource[:name]}\s+\d+/
+          return true
+        end
+      end
+    end
+    return false
+  end
+  
   # remove a tomcat instance by deleting its directory and contents.
   # If the instance is running it will be stopped before deletion.
   # If the instance is disabled (named with leading underscore) it will be 
@@ -43,17 +45,34 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
     end
   end
 
-  def running?
-    execpipe("#{command(:instance_manager)} status") do |out|
-      out.each_line do |line|
-        if line =~ /^#{@resource[:name]}\s+\d+/
-          return true
-        end
-      end
+  def set_present_and_running
+    if active_instance_dir_exists?
+      return if running?
+    elsif inactive_instance_dir_exists?
+      activate_instance_dir
+    else
+      make_instance
     end
-    return false
+    start
   end
 
+  def set_present_and_stopped
+    if inactive_instance_dir_exists? && active_instance_dir_exists?
+      raise Puppet::Error,
+        "Both active and inactive directories exist for " +
+        "Tomcat instance #{resource[:name]}. I'm unable to resolve this conflict."
+    end
+    if inactive_instance_dir_exists?
+      return
+    elsif active_instance_dir_exists?
+      stop
+    else
+      make_instance
+    end
+    deactivate_instance_dir
+  end
+
+  # start an instance, make the instance if needed
   def start
     puts "Starting #{@resource[:name]}"
     return if running?
@@ -67,7 +86,7 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
   # instance_manager does not support stopping an instance that is not enabled.
   # instance_manager does not support checking if a disable instance is running.
   def stop(force = true)
-    return if ! enabled?
+    return if ! active_instance_dir_exists?
     return if ! running?
     puts "Stopping #{@resource[:name]}"
     cmd = [command(:instance_manager)]
@@ -80,12 +99,9 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
   # disable a tomcat instance by renaming with leading underscore (_).
   # If the instance is running it will be stopped before disabling.
   # If the instance does not exist, it will be created, then disabled.
-  def disable
-    return if disabled?
-    if enabled?
+  def deactivate_instance_dir
+    if running?
       stop
-    else
-      create
     end
     Dir.chdir(@resource['instances_dir'])
     File.rename @resource[:name], "_" + @resource[:name]
@@ -94,18 +110,15 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
   # enable a disabled tomcat instance by renaming without leading
   # underscore (_). If the instance is not running it will be started.
   # If the instance does not exist, it will be created.
-  def enable
-    return if enabled?
-    if disabled?
+  def activate_instance_dir
+    return if active_instance_dir_exists?
+    if inactive_instance_dir_exists?
       Dir.chdir(@resource['instances_dir'])
       File.rename "_" + @resource[:name], @resource[:name]
-    else
-      create
     end
-    start
   end
 
-  def create
+  def make_instance
     return if active_instance_dir_exists? or inactive_instance_dir_exists?
     Dir.chdir(@resource['instances_dir'])
     cmd = [command(:make)]
