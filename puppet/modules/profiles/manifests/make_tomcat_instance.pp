@@ -21,21 +21,10 @@ define profiles::make_tomcat_instance($ensure) {
     ajp13_port     => $ajp13_port,
     jmx_port       => $jmx_port,
     tomcat_user    => $tomcat_user,
-    template_ver   => $template_ver,  
+    template_ver   => $template_ver,
     orcl_jdbc_path => $orcl_jdbc_path,
     pg_jdbc_path   => $pg_jdbc_path,
     require        => Class['tomcat_instance_framework'],
   }
 
-#  tomcat_instance_framework::instance { $name:
-#    instance_name  => $name,
-#    http_port      => $http_port,
-#    ajp13_port     => $ajp13_port,
-#    jmx_port       => $jmx_port,
-#    tomcat_user    => $tomcat_user,
-#    template_ver   => $template_ver,  
-#    orcl_jdbc_path => $orcl_jdbc_path,
-#    pg_jdbc_path   => $pg_jdbc_path,
-#    require        => Class['tomcat_instance_framework'],
-#  }
 }

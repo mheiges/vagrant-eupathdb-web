@@ -2,24 +2,27 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
 
   commands :make => "make", :instance_manager => "instance_manager"
 
-  # instance directory exists and jsvc process running
+  # return true if instance directory exists and jsvc process running
   def present_and_running?
     return active_instance_dir_exists? && running?
   end
 
-  # instance directory exists and jsvc process not running
+  # return true if instance directory exists and jsvc process not running
   def present_and_stopped?
     return inactive_instance_dir_exists?
   end
 
+  # return true if instance directory exists without '_' prefix
   def active_instance_dir_exists?
     return File.directory?( @resource['instances_dir'] + "/" + @resource[:name] )
   end
 
+  # instance directory exists with '_' prefix
   def inactive_instance_dir_exists?
     return File.directory?( @resource['instances_dir'] + "/" + "_" + @resource[:name] )
   end
 
+  # return true if jsvc process is running
   def running?
     execpipe("#{command(:instance_manager)} status") do |out|
       out.each_line do |line|
@@ -34,7 +37,7 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
   # remove a tomcat instance by deleting its directory and contents.
   # If the instance is running it will be stopped before deletion.
   # If the instance is disabled (named with leading underscore) it will be 
-  #  assumed to be already not running and its directory will be deleted.
+  # assumed to be already not running and its directory will be deleted.
   # If the instance does not exist, there is no action.
   def delete
     stop
@@ -45,6 +48,9 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
     end
   end
 
+  # ensure 1. instance directory is present, either by creating a new instance
+  # or renaming the directory of a stopped instance to remove the leading '_'.
+  # and 2. a jsvc process is running for the instance.
   def set_present_and_running
     if active_instance_dir_exists?
       return if running?
@@ -56,6 +62,9 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
     start
   end
 
+  # ensure an instance exists in the `stopped` state
+  #  - jsvc process not running
+  #  - instance directory named with leading '_'.
   def set_present_and_stopped
     if inactive_instance_dir_exists? && active_instance_dir_exists?
       raise Puppet::Error,
@@ -72,7 +81,8 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
     deactivate_instance_dir
   end
 
-  # start an instance, make the instance if needed
+  # start an instance. The instance directory must exist and not
+  # be named with a leading '_'.
   def start
     puts "Starting #{@resource[:name]}"
     return if running?
