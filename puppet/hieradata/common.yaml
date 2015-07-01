@@ -21,6 +21,7 @@ ebrc_tomcat::packages:
 
 tomcat_instance_framework::instances:
   TemplateDB:
+    ensure: running
     http_port: 9380
     ajp13_port: '9309'
     jmx_port: '9305'
@@ -28,14 +29,30 @@ tomcat_instance_framework::instances:
     template_ver: 6.0.35
     pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
   FooDB:
+    ensure: running
     http_port: '9480'
     ajp13_port: 9409
     tomcat_user: tomcat_3
     template_ver: 6.0.35
     pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
+    environment: |
+      a priest
+      and a rabbi
+      walk into a bar
   TooDB:
+    ensure: stopped
     http_port: '9580'
     ajp13_port: 9509
     tomcat_user: tomcat_3
     template_ver: 6.0.35
     pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
+    world_readable: true
+    environment: |
+      a priest
+      and a rabbi
+      walk into a bar
+tomcat_instance_framework::global:
+    environment: |
+      a priest
+      and a rabbi
+      walk into a bar

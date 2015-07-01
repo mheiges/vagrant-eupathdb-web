@@ -11,7 +11,6 @@ class profiles::ebrc_tomcat_instances_stack {
 #  }
 
   profiles::make_tomcat_instance{ ['TooDB']:
-    ensure => 'stopped',
     require => Class['::profiles::ebrc_postgresql94'],
   }
 

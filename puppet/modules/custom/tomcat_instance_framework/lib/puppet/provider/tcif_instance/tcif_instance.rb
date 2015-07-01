@@ -1,6 +1,6 @@
-Puppet::Type.type(:tcif_instance).provide(:ruby) do
+Puppet::Type.type(:tcif_instance).provide(:tcif_instance) do
 
-  commands :make => "make", :instance_manager => "instance_manager"
+  commands :make => "make", :instance_manager => "instance_manager", :echo => "echo"
 
   # return true if instance directory exists and jsvc process running
   def present_and_running?
@@ -34,6 +34,16 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
     return false
   end
   
+  def instance_path
+    if active_instance_dir_exists?
+      return @resource['instances_dir'] + "/" + @resource[:name]
+    elsif inactive_instance_dir_exists?
+      return @resource['instances_dir'] + "/" + "_" + @resource[:name]
+    else
+      return nil
+    end
+  end
+
   # remove a tomcat instance by deleting its directory and contents.
   # If the instance is running it will be stopped before deletion.
   # If the instance is disabled (named with leading underscore) it will be 
@@ -148,6 +158,30 @@ Puppet::Type.type(:tcif_instance).provide(:ruby) do
     run(cmd)
   end
 
+  def world_readable
+    # not implemented
+    return @resource[:world_readable]
+    #return :true
+  end
+
+  def world_readable=(value)
+    return
+   # path = instance_path()
+   # puts "MAKE WORLD READABLE #{value} for " + path
+    #setmode('0755', path)
+  end
+
+  # from PuppetLabs posix.rb
+  def setmode(value, path)
+    puts " set mode #{value} on #{path}"
+    begin
+      File.chmod(value.to_i(8), path)
+    rescue => detail
+      error = Puppet::Error.new("failed to set mode #{value} on #{path}: #{detail.message}")
+      error.set_backtrace detail.backtrace
+      raise error
+    end
+  end
 
   def run(cmd)
     execute(cmd)

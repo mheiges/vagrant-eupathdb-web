@@ -45,7 +45,7 @@ Puppet::Type.newtype(:tcif_instance) do
   newparam(:http_port) do
     desc "non-SSL HTTP/1.1 Connector port"
     validate do |value|
-      validate_port(:http_port, value)
+      resource.validate_port(:http_port, value)
       raise Puppet::Error, "#{http_port} must be defined" if ! defined? value
     end
   end
@@ -53,15 +53,25 @@ Puppet::Type.newtype(:tcif_instance) do
   newparam(:ajp13_port) do
     desc "AJP/1.3 Connector port"
     validate do |value|
-      validate_port(:ajp13_port, value)
+      resource.validate_port(:ajp13_port, value)
       raise Puppet::Error, "#{ajp13_port} must be defined" if ! defined? value
+    end
+  end
+
+  newproperty(:world_readable, :boolean => true) do
+    desc "whether instance directories are world readable"
+    newvalue(:true)
+    newvalue(:false)
+    defaultto :false
+    munge do |value|
+      @resource.munge_boolean(value)
     end
   end
 
   newparam(:jmx_port) do
     desc "com.sun.management.jmxremote port"
     validate do |value|
-      validate_port(:jmx_port, value)
+      resource.validate_port(:jmx_port, value)
     end
   end
 
@@ -86,14 +96,29 @@ Puppet::Type.newtype(:tcif_instance) do
     defaultto "/usr/local/tomcat_instances"
   end
 
-end
-
-
-def validate_port(param, value)
-  if value.is_a?(Integer)
-      value = value.to_s
+  newparam(:environment) do
+    desc "additional environment for instance.env configuration."
+    defaultto ""
   end
-  if ! value.to_i.between?(1,65535)
-    raise ArgumentError, "#{param} port value must be between 1 and 65535. You requested #{value}."
+
+  def munge_boolean(value)
+    case value
+    when true, "true", :true
+      :true
+    when false, "false", :false
+      :false
+    else
+      fail("munge_boolean only takes booleans")
+    end
   end
+
+  def validate_port(param, value)
+    if value.is_a?(Integer)
+        value = value.to_s
+    end
+    if ! value.to_i.between?(1,65535)
+      raise ArgumentError, "#{param} port value must be between 1 and 65535. You requested #{value}."
+    end
+  end
+
 end
