@@ -28,7 +28,16 @@ define profiles::make_tomcat_instance() {
     pg_jdbc_path   => $pg_jdbc_path,
     world_readable => $world_readable,
     environment    => $environment,
+    config_file    => template('tomcat_instance_framework/instance.env.erb'),
     require        => Class['tomcat_instance_framework'],
   }
+
+#  file { "${name}-env":
+#    path    => "/usr/local/tomcat_instances/${name}/conf/instance.env",
+#    owner   => $tomcat_user,
+#    group   => 'tomcat',
+#    mode    => '0644',
+#    content => template('tomcat_instance_framework/instance.env.erb'),
+#  }
 
 }

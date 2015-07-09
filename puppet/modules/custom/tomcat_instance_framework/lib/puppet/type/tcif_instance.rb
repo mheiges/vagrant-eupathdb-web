@@ -1,5 +1,24 @@
-Puppet::Type.newtype(:tcif_instance) do
+#require 'puppet/util/resource_template'
+#require 'puppet/parser/functions'
+
+Puppet::Type.newtype(:tcif_instance, :self_refresh => true) do
   desc "Manage instances of Tomcat"
+
+  def generate
+    puts "generate"
+    provider.config_file
+    return
+  end
+
+  def refresh 
+   if (@parameters[:ensure].value == :running)
+      puts "RESTSRT"
+      provider.restart
+    else
+      puts "NO RESTSRT"
+      debug "Skipping restart; service is not running"
+    end
+  end
 
   ensurable do
 
@@ -99,6 +118,14 @@ Puppet::Type.newtype(:tcif_instance) do
   newparam(:environment) do
     desc "additional environment for instance.env configuration."
     defaultto ""
+  end
+
+  newparam(:config_file) do
+    desc "Instance configuration content."
+  end
+
+  autorequire(:tomcat_user) do
+    self[:tomcat_user]
   end
 
   def munge_boolean(value)

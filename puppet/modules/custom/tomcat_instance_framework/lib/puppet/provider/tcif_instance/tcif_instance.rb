@@ -1,6 +1,6 @@
 Puppet::Type.type(:tcif_instance).provide(:tcif_instance) do
 
-  commands :make => "make", :instance_manager => "instance_manager", :echo => "echo"
+  commands :make => "make", :instance_manager => "instance_manager"
 
   # return true if instance directory exists and jsvc process running
   def present_and_running?
@@ -156,6 +156,18 @@ Puppet::Type.type(:tcif_instance).provide(:tcif_instance) do
       cmd += ["PG_JDBC_PATH=#{@resource[:pg_jdbc_path]}"]  
     end
     run(cmd)
+    config_file
+  end
+
+  def config_file
+    puts "CONFIG_FILE"
+    catalog = Puppet::Resource::Catalog.new
+    catalog.create_resource(:file,
+      :path    => "#{instance_path}/conf/instance.env",
+      :content => @resource[:config_file],
+      :ensure  => :present
+    )
+    catalog.apply
   end
 
   def world_readable
@@ -181,6 +193,10 @@ Puppet::Type.type(:tcif_instance).provide(:tcif_instance) do
       error.set_backtrace detail.backtrace
       raise error
     end
+  end
+
+  def restart
+    puts "RESTSRTING@@@@!!!!"
   end
 
   def run(cmd)

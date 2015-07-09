@@ -36,11 +36,10 @@ tomcat_instance_framework::instances:
     template_ver: 6.0.35
     pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
     environment: |
-      a priest
-      and a rabbi
-      walk into a bar
+      A=B
+      C=D
   TooDB:
-    ensure: stopped
+    ensure: running
     http_port: '9580'
     ajp13_port: 9509
     tomcat_user: tomcat_3
@@ -48,11 +47,11 @@ tomcat_instance_framework::instances:
     pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
     world_readable: true
     environment: |
-      a priest
-      and a rabbi
-      walk into a bar
+      if [[ -e "/usr/java/jprofiler-agent/linux-x64/libjprofilerti.so" ]]; then
+        echo 2
+        CATALINA_OPTS[JPROFILER]="-agentpath:/usr/java/jprofiler-agent/linux-x64/libjprofilerti.so=port=$JPROFILER_PORT,nowait"
+      fi
 tomcat_instance_framework::global:
     environment: |
-      a priest
-      and a rabbi
-      walk into a bar
+      A=B
+      C=D
