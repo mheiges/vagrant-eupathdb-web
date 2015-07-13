@@ -5,11 +5,21 @@ class profiles::ebrc_tomcat_instances_stack {
   include ::profiles::ebrc_tomcat
   include ::profiles::ebrc_postgresql94
 
-  profiles::make_tomcat_instance{ ['TemplateDB', 'FooDB']:
+  $global = hiera('tomcat_instance_framework::global')
+
+  tomcat_instance_framework::global_config{ 'tcif':
+    catalina_home => $global['catalina_home'],
+    java_home     => $global['java_home'],
+    instances_dir => $global['instances_dir'],
+    oracle_home   => $global['oracle_home'],
+    environment   => $global['environment'],
+  }
+
+  profiles::tomcat_instance{ ['TemplateDB', 'FooDB']:
     require => Class['::profiles::ebrc_postgresql94'],
   }
 
-  profiles::make_tomcat_instance{ ['TooDB']:
+  profiles::tomcat_instance{ ['TooDB']:
     require => Class['::profiles::ebrc_postgresql94'],
   }
 

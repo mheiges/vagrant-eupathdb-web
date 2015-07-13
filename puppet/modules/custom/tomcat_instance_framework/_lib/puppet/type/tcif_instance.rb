@@ -4,18 +4,15 @@
 Puppet::Type.newtype(:tcif_instance, :self_refresh => true) do
   desc "Manage instances of Tomcat"
 
-  def generate
-    puts "generate"
-    provider.config_file
-    return
-  end
+#  def generate
+#    puts "generate"
+#    provider.config_file
+#  end
 
   def refresh 
    if (@parameters[:ensure].value == :running)
-      puts "RESTSRT"
       provider.restart
     else
-      puts "NO RESTSRT"
       debug "Skipping restart; service is not running"
     end
   end

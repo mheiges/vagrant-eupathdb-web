@@ -1,6 +1,6 @@
 # install ToxoDB tomcat instance using the Tomcat Instance Framework
 
-define profiles::make_tomcat_instance() {
+define profiles::tomcat_instance() {
 
   include tomcat_instance_framework
 
@@ -17,7 +17,7 @@ define profiles::make_tomcat_instance() {
   $world_readable = $instances_data[$name]['world_readable']
   $environment    = $instances_data[$name]['environment']
 
-  tcif_instance { $name:
+  tomcat_instance_framework::instance { $name:
     ensure         => $ensure,
     http_port      => $http_port,
     ajp13_port     => $ajp13_port,
@@ -26,18 +26,9 @@ define profiles::make_tomcat_instance() {
     template_ver   => $template_ver,
     orcl_jdbc_path => $orcl_jdbc_path,
     pg_jdbc_path   => $pg_jdbc_path,
-    world_readable => $world_readable,
     environment    => $environment,
     config_file    => template('tomcat_instance_framework/instance.env.erb'),
     require        => Class['tomcat_instance_framework'],
   }
-
-#  file { "${name}-env":
-#    path    => "/usr/local/tomcat_instances/${name}/conf/instance.env",
-#    owner   => $tomcat_user,
-#    group   => 'tomcat',
-#    mode    => '0644',
-#    content => template('tomcat_instance_framework/instance.env.erb'),
-#  }
 
 }

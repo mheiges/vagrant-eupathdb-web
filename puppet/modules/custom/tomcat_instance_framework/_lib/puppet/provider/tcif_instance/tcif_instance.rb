@@ -156,18 +156,22 @@ Puppet::Type.type(:tcif_instance).provide(:tcif_instance) do
       cmd += ["PG_JDBC_PATH=#{@resource[:pg_jdbc_path]}"]  
     end
     run(cmd)
-    config_file
+    catalog = Puppet::Resource::Catalog.new
+    catalog.add_resource config_file
+    catalog.apply
+  end
+
+  def apply_config_file
+    
   end
 
   def config_file
-    puts "CONFIG_FILE"
-    catalog = Puppet::Resource::Catalog.new
-    catalog.create_resource(:file,
-      :path    => "#{instance_path}/conf/instance.env",
+    return if ! instance_path()
+    Puppet::Type.type(:file).new({
+      :name    => "#{instance_path}/conf/instance.env",
+      :ensure  => :present,
       :content => @resource[:config_file],
-      :ensure  => :present
-    )
-    catalog.apply
+    })
   end
 
   def world_readable
@@ -196,7 +200,9 @@ Puppet::Type.type(:tcif_instance).provide(:tcif_instance) do
   end
 
   def restart
-    puts "RESTSRTING@@@@!!!!"
+    puts "RESTARTING"
+    stop
+    start
   end
 
   def run(cmd)
