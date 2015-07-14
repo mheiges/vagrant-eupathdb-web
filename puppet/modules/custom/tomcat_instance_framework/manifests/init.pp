@@ -1,3 +1,4 @@
+# Install Tomcat Instance Framework and manage its service
 
 class tomcat_instance_framework {
 

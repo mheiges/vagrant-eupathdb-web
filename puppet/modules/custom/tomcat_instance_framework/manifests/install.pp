@@ -1,3 +1,4 @@
+# install tomcat-instance-framework from RPM
 
 class tomcat_instance_framework::install {
 

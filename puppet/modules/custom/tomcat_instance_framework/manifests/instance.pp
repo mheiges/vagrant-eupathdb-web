@@ -17,6 +17,8 @@ define tomcat_instance_framework::instance (
   $public_logs = false,
 ) {
 
+  validate_bool($public_logs)
+
   $service_state = $ensure ? {
     'absent' => 'stopped',
     default  => $ensure
