@@ -16,6 +16,7 @@ define profiles::tomcat_instance() {
   $pg_jdbc_path   = $instances_data[$name]['pg_jdbc_path']
   $world_readable = $instances_data[$name]['world_readable']
   $environment    = $instances_data[$name]['environment']
+  $public_logs    = $instances_data[$name]['public_logs']
 
   tomcat_instance_framework::instance { $name:
     ensure         => $ensure,
@@ -27,6 +28,7 @@ define profiles::tomcat_instance() {
     orcl_jdbc_path => $orcl_jdbc_path,
     pg_jdbc_path   => $pg_jdbc_path,
     environment    => $environment,
+    public_logs    => $public_logs,
     config_file    => template('tomcat_instance_framework/instance.env.erb'),
     require        => Class['tomcat_instance_framework'],
   }

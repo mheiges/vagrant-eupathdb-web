@@ -14,7 +14,7 @@ define tomcat_instance_framework::instance_config (
 
   file { "${instances_dir}/${name}/conf/instance.env":
     content    => template('tomcat_instance_framework/instance.env.erb'),
-#    require    => Package['tomcat-instance-framework'],
+    require    => Package['tomcat-instance-framework'],
   }
 
 }

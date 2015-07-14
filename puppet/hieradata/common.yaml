@@ -27,6 +27,7 @@ tomcat_instance_framework::instances:
     jmx_port:   9305
     tomcat_user: tomcat_3
     template_ver: 6.0.35
+    public_logs: true
     pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
     environment: |
         CATALINA_OPTS['JMX_OPTS']="\
@@ -36,22 +37,22 @@ tomcat_instance_framework::instances:
           -Dcom.sun.management.jmxremote.authenticate=false"
   FooDB:
     ensure: stopped
-    http_port: '9480'
+    http_port:  9480
     ajp13_port: 9409
     tomcat_user: tomcat_3
     template_ver: 6.0.35
+    public_logs: false
     pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
     environment: |
       A=B
       C=D
   TooDB:
     ensure: running
-    http_port: '9580'
+    http_port:  9580
     ajp13_port: 9509
     tomcat_user: tomcat_3
     template_ver: 6.0.35
     pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
-    world_readable: false
     environment: |
       if [[ -e "/usr/java/jprofiler-agent/linux-x64/libjprofilerti.so" ]]; then
         echo 1

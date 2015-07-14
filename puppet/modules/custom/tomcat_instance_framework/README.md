@@ -93,3 +93,6 @@ optional. Additional entries in the `instance.env` file. Only used with `instanc
 
 #### config\_file
 The origin of the `instance.env` file.
+
+#### public\_logs
+`true` or `false` whether the tomcat instance logs are world readable. Default `false`.

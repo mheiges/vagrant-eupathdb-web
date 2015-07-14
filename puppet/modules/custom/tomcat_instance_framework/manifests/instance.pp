@@ -14,6 +14,7 @@ define tomcat_instance_framework::instance (
   $instances_dir = '/usr/local/tomcat_instances',
   $config_file = undef,
   $environment = undef,
+  $public_logs = false,
 ) {
 
   $service_state = $ensure ? {
@@ -90,6 +91,21 @@ define tomcat_instance_framework::instance (
         creates => "${instances_dir}/_${name}",
         require => [Exec["make-${instance_name}"], Service["tcif-${name}"]],
       }
+
+      if ($public_logs == true) {
+        file { "${instances_dir}/_${name}/logs":
+          mode    => '0644',
+          recurse => true,
+          require => Exec["make-${instance_name}"]
+        }
+      } else {
+        file { "${instances_dir}/_${name}/logs":
+          mode    => '0640',
+          recurse => true,
+          require => Exec["make-${instance_name}"]
+        }
+      } # if ($public_logs == true)
+
     }
 
     if ( $ensure == 'running' ) {
@@ -101,8 +117,24 @@ define tomcat_instance_framework::instance (
         notify  => Service["tcif-${name}"],
         before  => Exec["make-${instance_name}"],
       }
-    }
-  }
+
+      if ($public_logs == true) {
+        file { "${instances_dir}/${name}/logs":
+          mode    => '0644',
+          recurse => true,
+          require => Exec["make-${instance_name}"]
+        }
+      } else {
+        file { "${instances_dir}/${name}/logs":
+          mode    => '0640',
+          recurse => true,
+          require => Exec["make-${instance_name}"]
+        }
+      } # if ($public_logs == true)
+
+    } # if ( $ensure == 'running' )
+    
+  } # $ensure != 'absent'
 
   service { "tcif-${name}":
     ensure  => $service_state,
