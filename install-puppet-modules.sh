@@ -18,3 +18,14 @@ for module_src in \
   fi
 
 done
+
+for in_house_module in \
+                    oracle; do
+
+  if [ ! -d "${module_path}/${in_house_module}" ]; then
+    mkdir "${module_path}/${in_house_module}"
+    git archive --remote=git@git.apidb.org:puppet.git \
+        HEAD:modules/${in_house_module} | tar -x -C "${module_path}/${in_house_module}"
+  fi
+
+done
