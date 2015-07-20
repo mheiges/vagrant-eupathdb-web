@@ -1,0 +1,38 @@
+# bootstrap VM with pre-Puppet tasks
+---
+- hosts: all
+  sudo: yes
+  gather_facts: False
+
+  tasks:
+
+    - name: install git
+      yum:  name=git
+
+    - name: add git host to known_hosts
+      known_hosts: path="/home/vagrant/.ssh/known_hosts"
+                   host='git.apidb.org'
+                   key="{{ lookup('pipe','ssh-keyscan git.apidb.org') }}"
+      sudo: no
+
+    - name: add tomcat user
+      group: name='tomcat'
+             gid='300'
+    - user: name='tomcat_3'
+            uid='303'
+            group='tomcat'
+            comment='TemplateDB Tomcat instance owner'
+            createhome='no'
+            shell='/sbin/nologin'
+            home='/usr/local/tomcat_instances/TemplateDB'
+
+
+    - name: install bash history
+      copy: src=bash_history
+            dest="~vagrant/.bash_history"
+            owner="vagrant"
+            mode=0644
+
+    - name: install-puppet-modules.sh
+      script: install-puppet-modules.sh
+      sudo: no

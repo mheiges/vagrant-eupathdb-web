@@ -1,0 +1,17 @@
+<%#
+template for generating a erbc_packages class files using the genclass command.
+
+  genclass <package1> <package2> ...
+
+You can list multiple packages. The class will be named as <package1>.
+ %>
+# install <%= @packages %>
+class ebrc_packages::<%= @packages[0] %> {
+  
+  $packages = <%= @packages.to_s.tr('"', "'") %>
+
+  package { $packages :
+    ensure => installed,
+  }
+
+}
