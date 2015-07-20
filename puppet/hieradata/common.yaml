@@ -1,4 +1,7 @@
 ---
+
+maven_home: /usr/java/maven-3.0.4
+
 oracle_home: /u01/app/oracle/product/11.2.0.3/db_1
 
 java_keystore_target: /etc/pki/tls/certs/cacerts
@@ -12,12 +15,14 @@ ebrc_common_web_dirs::group : root
 
 ebrc_java::packages:
   - jdk-1.7.0_25-fcs
-  - java-1.5.0-sun-devel
 ebrc_java::java_home: /usr/java/jdk1.7.0_25
 
 ebrc_tomcat::packages:
   - tomcat-6.0.43
-  - tomcat-7.0.59
+
+postgresql::globals::version: '9.4'
+postgresql::globals::manage_package_repo: true
+postgresql::server::password: fruityfroot
 
 tomcat_instance_framework::instances:
   TemplateDB:
@@ -55,7 +60,7 @@ tomcat_instance_framework::instances:
     pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
     environment: |
       if [[ -e "/usr/java/jprofiler-agent/linux-x64/libjprofilerti.so" ]]; then
-        echo 1
+        echo 2
         CATALINA_OPTS[JPROFILER]="-agentpath:/usr/java/jprofiler-agent/linux-x64/libjprofilerti.so=port=$JPROFILER_PORT,nowait"
       fi
 tomcat_instance_framework::global:

@@ -3,10 +3,10 @@ class profiles::ebrc_tomcat_instances_stack {
 
   include ::profiles::ebrc_java_stack
   include ::profiles::ebrc_tomcat
-  include ::profiles::ebrc_postgresql94
+  include ::ebrc_packages::make
+  include ::profiles::ebrc_postgresql94_jdbc
 
   $global = hiera('tomcat_instance_framework::global')
-
   tomcat_instance_framework::global_config{ 'tcif':
     catalina_home => $global['catalina_home'],
     java_home     => $global['java_home'],
@@ -15,12 +15,13 @@ class profiles::ebrc_tomcat_instances_stack {
     environment   => $global['environment'],
   }
 
-  profiles::tomcat_instance{ ['TemplateDB', 'FooDB']:
-    require => Class['::profiles::ebrc_postgresql94'],
-  }
+  profiles::tomcat_instance{ 'TemplateDB': }
 
-  profiles::tomcat_instance{ ['TooDB']:
-    require => Class['::profiles::ebrc_postgresql94'],
+  file { "${global['instances_dir']}/TemplateDB/shared/lib/postgresql-jdbc.jar":
+    source  => '/usr/share/java/postgresql94-jdbc.jar',
+    links   => 'follow',
+    require => Class['profiles::ebrc_postgresql94_jdbc'],
+    notify  => Service["tcif-TemplateDB"],
   }
 
 }

@@ -18,3 +18,12 @@ firewall { '100 allow https':
   action => 'accept',
 }
 
+# TEMP FOR TESTING
+firewall { '100 allow tomcat instance':
+  chain  => 'INPUT',
+  state  => ['NEW'],
+  dport  => '9380',
+  proto  => 'tcp',
+  action => 'accept',
+}
+

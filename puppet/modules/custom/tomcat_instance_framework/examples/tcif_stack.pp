@@ -2,7 +2,6 @@ class profiles::tcif_stack {
 
   include ::profiles::ebrc_java_stack
   include ::profiles::ebrc_tomcat
-  include ::profiles::ebrc_postgresql94
 
   $global = hiera('tomcat_instance_framework::global')
 
@@ -14,8 +13,6 @@ class profiles::tcif_stack {
     environment   => $global['environment'],
   }
 
-  profiles::tomcat_instance{ ['TemplateDB']:
-    require => Class['::profiles::ebrc_postgresql94'],
-  }
+  profiles::tomcat_instance{ 'TemplateDB': }
 
 }

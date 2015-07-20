@@ -4,28 +4,30 @@ module_path=/vagrant/puppet/modules/forge
 
 mkdir -p "${module_path}"
 
-for module_src in \
+for forge_module in \
                     puppetlabs-firewall \
+                    stahnma/epel \
                     puppetlabs-java_ks \
                     puppetlabs-tomcat \
                     puppetlabs-postgresql \
                     puppetlabs-apache; do
 
-  module="${module_src#*-}"
+  module="${forge_module#*-}"
   if [ ! -d "${module_path}/${module}" ]; then
-    echo "Installing puppet module ${module_src}."
-    puppet module install --modulepath "${module_path}" "${module_src}"
+    echo "Installing puppet module ${forge_module}."
+    puppet module install --modulepath "${module_path}" "${forge_module}"
   fi
 
 done
 
-for in_house_module in \
+for ebrc_module in \
+                    maven \
                     oracle; do
 
-  if [ ! -d "${module_path}/${in_house_module}" ]; then
-    mkdir "${module_path}/${in_house_module}"
+  if [ ! -d "${module_path}/${ebrc_module}" ]; then
+    mkdir "${module_path}/${ebrc_module}"
     git archive --remote=git@git.apidb.org:puppet.git \
-        HEAD:modules/${in_house_module} | tar -x -C "${module_path}/${in_house_module}"
+        HEAD:modules/${ebrc_module} | tar -x -C "${module_path}/${ebrc_module}"
   fi
 
 done

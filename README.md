@@ -24,5 +24,3 @@ Puppet manifests are applied during `vagrant provision`. To manually apply manif
 
 
 ### ToDO
- - tomcat instances set up by module instead of using RPM
-  - `JAVA_HOME` set in `global.env` template to value of `hiera('ebrc_java::java_home')`
