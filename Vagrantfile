@@ -22,7 +22,8 @@ Vagrant.configure('2') do |config|
 
     config.vm.network :forwarded_port, guest: 80, host: 1080, auto_correct: true
     config.vm.network :forwarded_port, guest: 443, host: 10443, auto_correct: true
- 
+#    config.vm.network :forwarded_port, guest: 9380, host: 9380, auto_correct: true
+
     config.vm.provision :ansible do |ansible|
       ansible.playbook = "playbook.yml"
     end
