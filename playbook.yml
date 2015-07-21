@@ -6,8 +6,8 @@
 
   tasks:
 
-    - name: install git
-      yum:  name=git
+    - yum: name=git
+    - yum: name=rubygem-deep_merge
 
     - name: add git host to known_hosts
       known_hosts: path="/home/vagrant/.ssh/known_hosts"
