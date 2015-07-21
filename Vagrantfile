@@ -18,6 +18,9 @@ Vagrant.configure('2') do |config|
 
   config.vm.define args[:hostname] do |virtm|
 
+     config.vm.network :private_network, type: :dhcp
+     config.vm.synced_folder ".", "/vagrant", type: "nfs"
+
     config.vm.hostname = "#{args[:hostname]}" 
 
     config.vm.network :forwarded_port, guest: 80, host: 1080, auto_correct: true
