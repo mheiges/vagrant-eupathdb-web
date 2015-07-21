@@ -4,7 +4,7 @@ class profiles::ebrc_tomcat_instances_stack {
   include ::profiles::ebrc_java_stack
   include ::profiles::ebrc_tomcat
   include ::ebrc_packages::make
-  include ::profiles::ebrc_postgresql94_jdbc
+  include ::tomcat_instance_framework
 
   $global = hiera('tomcat_instance_framework::global')
   tomcat_instance_framework::global_config{ 'tcif':
@@ -15,13 +15,10 @@ class profiles::ebrc_tomcat_instances_stack {
     environment   => $global['environment'],
   }
 
-  profiles::tomcat_instance{ 'TemplateDB': }
+  # hiera_hash because we are merging a hash ":merge_behavior: deeper"
+  $instances_data = hiera_hash('tomcat_instance_framework::instances')
 
-  file { "${global['instances_dir']}/TemplateDB/shared/lib/postgresql-jdbc.jar":
-    source  => '/usr/share/java/postgresql94-jdbc.jar',
-    links   => 'follow',
-    require => Class['profiles::ebrc_postgresql94_jdbc'],
-    notify  => Service["tcif-TemplateDB"],
-  }
-
+  create_resources('tomcat_instance_framework::instance', $instances_data)
+  
+  #Class['tomcat_instance_framework'] -> Class['tomcat_instance_framework::instance']
 }

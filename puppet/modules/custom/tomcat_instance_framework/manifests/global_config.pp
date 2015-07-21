@@ -8,6 +8,8 @@ define tomcat_instance_framework::global_config (
   $auto_deploy = false,
 ) {
 
+  include tomcat_instance_framework
+
   # stdlib validate_absolute_path() only checks if string
   # looks like it could be a path, not if the path exists.
   validate_absolute_path($catalina_home)

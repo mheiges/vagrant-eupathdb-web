@@ -1,29 +1,5 @@
 
-#include profiles::ebrc_wdk_host
-include profiles::gus_wdk_host
 
-firewall { '100 allow http':
-  chain  => 'INPUT',
-  state  => ['NEW'],
-  dport  => '80',
-  proto  => 'tcp',
-  action => 'accept',
-}
+include roles::wdk_templatedb
 
-firewall { '100 allow https':
-  chain  => 'INPUT',
-  state  => ['NEW'],
-  dport  => '443',
-  proto  => 'tcp',
-  action => 'accept',
-}
-
-# TEMP FOR TESTING
-firewall { '100 allow tomcat instance':
-  chain  => 'INPUT',
-  state  => ['NEW'],
-  dport  => '9380',
-  proto  => 'tcp',
-  action => 'accept',
-}
 

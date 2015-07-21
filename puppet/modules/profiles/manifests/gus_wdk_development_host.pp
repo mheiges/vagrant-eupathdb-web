@@ -1,6 +1,6 @@
 # Manage infrastructure for hosting WDK applications. For example, TemplateDB.
 
-class profiles::gus_wdk_host {
+class profiles::gus_wdk_development_host ( $foo = undef) {
 
   stage { 'pre':
     before => Stage["main"],

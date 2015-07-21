@@ -1,4 +1,7 @@
 ---
+
+:merge_behavior: deeper
+
 :backends:
     - yaml
     
@@ -8,7 +11,11 @@
 :hierarchy:
     - %{fqdn}
     - %{domain}
+    - %{roles}
+    - %{role}
+    - %{calling_class}
     - common
     
 :logger:
     - puppet
+

@@ -24,45 +24,221 @@ postgresql::globals::version: '9.4'
 postgresql::globals::manage_package_repo: true
 postgresql::server::password: fruityfroot
 
+profiles::gus_wdk_development_host::foo: goo
+
 tomcat_instance_framework::instances:
-  TemplateDB:
-    ensure: running
-    http_port:  9380
-    ajp13_port: 9309
-    jmx_port:   9305
-    tomcat_user: tomcat_3
+  AmoebaDB:
+    ensure:       absent
+    http_port:    8780
+    ajp13_port:   8709
+    jmx_port:     8705
+    tomcat_user:  tomcat_b
     template_ver: 6.0.35
-    public_logs: true
-    pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
+    public_logs:  true
     environment: |
         CATALINA_OPTS['JMX_OPTS']="\
           -Dcom.sun.management.jmxremote \
           -Dcom.sun.management.jmxremote.port=\$JMX_PORT \
           -Dcom.sun.management.jmxremote.ssl=false \
           -Dcom.sun.management.jmxremote.authenticate=false"
-  FooDB:
-    ensure: stopped
-    http_port:  9480
-    ajp13_port: 9409
-    tomcat_user: tomcat_3
+  ApiDB:
+    ensure:       absent
+    http_port:    9180
+    ajp13_port:   9109
+    jmx_port:     9105
+    tomcat_user:  tomcat_2
     template_ver: 6.0.35
-    public_logs: false
-    pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
-    environment: |
-      A=B
-      C=D
-  TooDB:
-    ensure: running
-    http_port:  9580
-    ajp13_port: 9509
-    tomcat_user: tomcat_3
+    public_logs:  true
+    environment:
+  CryptoDB:
+    ensure:       absent
+    http_port:    9280
+    ajp13_port:   9209
+    jmx_port:     9205
+    tomcat_user:  tomcat_1
     template_ver: 6.0.35
-    pg_jdbc_path: /usr/share/java/postgresql94-jdbc.jar
-    environment: |
-      if [[ -e "/usr/java/jprofiler-agent/linux-x64/libjprofilerti.so" ]]; then
-        echo 2
-        CATALINA_OPTS[JPROFILER]="-agentpath:/usr/java/jprofiler-agent/linux-x64/libjprofilerti.so=port=$JPROFILER_PORT,nowait"
-      fi
+    public_logs:  true
+    environment:
+  EuPathDB:
+    ensure:       absent
+    http_port:    9980
+    ajp13_port:   9909
+    jmx_port:     9905
+    tomcat_user:  tomcat_9
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  FungiDB:
+    ensure:       absent
+    http_port:    8580
+    ajp13_port:   8509
+    jmx_port:     8505
+    tomcat_user:  tomcat_c
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  GiardiaDB:
+    ensure:       absent
+    http_port:    9780
+    ajp13_port:   9709
+    jmx_port:     9705
+    tomcat_user:  tomcat_7
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  HostDB:
+    ensure:       absent
+    http_port:    7980
+    ajp13_port:   7909
+    jmx_port:     7905
+    tomcat_user:  tomcat_h
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  Joes:
+    ensure:       absent
+    http_port:    9080
+    ajp13_port:   9009
+    jmx_port:     9005
+    tomcat_user:  joeuser
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  GalaxyDev:
+    ensure:       absent
+    http_port:    8380
+    ajp13_port:   8309
+    jmx_port:     8305
+    tomcat_user:  mec
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  MaHPIC:
+    ensure:       absent
+    http_port:    7880
+    ajp13_port:   7809
+    jmx_port:     7805
+    tomcat_user:  mnural
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  Microsporidium:
+    ensure:       absent
+    http_port:    8880
+    ajp13_port:   8809
+    jmx_port:     8805
+    tomcat_user:  tomcat_a
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  OAuth:
+    ensure:       absent
+    http_port:    7680
+    ajp13_port:   7609
+    jmx_port:     7605
+    tomcat_user:  tomcat_j
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  OrthoMCL:
+    ensure:       absent
+    http_port:    8280
+    ajp13_port:   8209
+    jmx_port:     8205
+    tomcat_user:  tomcat_f
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  PlasmoDB:
+    ensure:       absent
+    http_port:    9480
+    ajp13_port:   9409
+    jmx_port:     9405
+    tomcat_user:  tomcat_4
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  PiroplasmaDB:
+    ensure:       absent
+    http_port:    8480
+    ajp13_port:   8409
+    jmx_port:     8405
+    tomcat_user:  tomcat_e
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  Protege:
+    ensure:       absent
+    http_port:    8680
+    ajp13_port:   8609
+    jmx_port:     8605
+    tomcat_user:  alok
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  SchistoDB:
+    ensure:       absent
+    http_port:    7780
+    ajp13_port:   7709
+    jmx_port:     7705
+    tomcat_user:  tomcat_i
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  TemplateDB:
+    ensure:       absent
+    http_port:    9380
+    ajp13_port:   9309
+    jmx_port:     9305
+    tomcat_user:  tomcat_3
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  Test:
+    ensure:       absent
+    http_port:    9680
+    ajp13_port:   9609
+    jmx_port:     9605
+    tomcat_user:  tomcat_6
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  Tomcat7:
+    ensure:       absent
+    http_port:    8180
+    ajp13_port:   8109
+    jmx_port:     8105
+    tomcat_user:  tomcat_g
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  ToxoDB:
+    ensure:       absent
+    http_port:    9580
+    ajp13_port:   9509
+    jmx_port:     9505
+    tomcat_user:  tomcat_5
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  TrichDB:
+    ensure:       absent
+    http_port:    9880
+    ajp13_port:   9809
+    jmx_port:     9805
+    tomcat_user:  tomcat_8
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
+  TriTrypDB:
+    ensure:       absent
+    http_port:    8980
+    ajp13_port:   8909
+    jmx_port:     8905
+    tomcat_user:  tomcat_d
+    template_ver: 6.0.35
+    public_logs:  true
+    environment:
 tomcat_instance_framework::global:
     instances_dir: /usr/local/tomcat_instances
     java_home: "%{hiera('ebrc_java::java_home')}"

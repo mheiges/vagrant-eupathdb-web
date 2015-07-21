@@ -17,6 +17,11 @@ define tomcat_instance_framework::instance (
   $public_logs = false,
 ) {
 
+  include ::tomcat_instance_framework
+  Exec    { require => Class['tomcat_instance_framework'] }
+  File    { require => Class['tomcat_instance_framework'] }
+  Service { require => Class['tomcat_instance_framework'] }
+
   validate_bool($public_logs)
 
   $service_state = $ensure ? {

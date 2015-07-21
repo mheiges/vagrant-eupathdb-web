@@ -1,1 +1,5 @@
 postgresql::server::password: jellybelly
+
+tomcat_instance_framework::instances:
+  TemplateDB:
+    ensure: running
