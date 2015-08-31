@@ -1,5 +1,11 @@
 #!/usr/bin/env ruby
 
+# TODO FOR PUPPET 4
+#  - Class names containing hyphens are prohibited.
+#  - apparently there's a limit on uppercase in class name
+#   e.g. given ebrc_packages::perl_YAML, Puppet complains
+#   "Could not find class ::ebrc_packages::perl_YAML"
+
 # Generate a erbc_packages class file from the templates/class.erb.
 # Usage:
 #  genclass <package1> <package2> ...
