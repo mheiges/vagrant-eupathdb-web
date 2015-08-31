@@ -5,6 +5,7 @@
 #  - apparently there's a limit on uppercase in class name
 #   e.g. given ebrc_packages::perl_YAML, Puppet complains
 #   "Could not find class ::ebrc_packages::perl_YAML"
+#      Possible upstream ticket https://tickets.puppetlabs.com/browse/PUP-2823
 
 # Generate a erbc_packages class file from the templates/class.erb.
 # Usage:
