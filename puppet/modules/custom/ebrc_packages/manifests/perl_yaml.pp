@@ -1,6 +1,6 @@
 
 # install ["perl-YAML"]
-class ebrc_packages::perl-YAML {
+class ebrc_packages::perl_yaml {
   
   $packages = ['perl-YAML']
 

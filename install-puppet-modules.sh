@@ -6,7 +6,7 @@ mkdir -p "${module_path}"
 
 for forge_module in \
                     puppetlabs-firewall \
-                    stahnma/epel \
+                    stahnma-epel \
                     puppetlabs-java_ks \
                     puppetlabs-tomcat \
                     puppetlabs-postgresql \

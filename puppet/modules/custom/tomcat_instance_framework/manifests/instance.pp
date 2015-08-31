@@ -1,23 +1,25 @@
-# Manage an instance of Tomcat.
+# Manage an instance of the Tomcat Instance Framework .
 # Requires puppetlabs/stdlib module for parameter validation.
+#
 
 define tomcat_instance_framework::instance (
-  $ensure = running,
-  $instance_name = $name,
-  $http_port = undef,
-  $ajp13_port = undef,
-  $jmx_port = undef,
-  $tomcat_user = undef,
-  $template_ver = undef,
-  $orcl_jdbc_path = undef,
-  $pg_jdbc_path = undef,
-  $instances_dir = '/usr/local/tomcat_instances',
-  $config_file = undef,
-  $environment = undef,
-  $public_logs = false,
+  $ensure            = running,
+  $instance_name     = $name,
+  $http_port         = undef,
+  $ajp13_port        = undef,
+  $jmx_port          = undef,
+  $tomcat_user       = undef,
+  $template_ver      = undef,
+  $orcl_jdbc_path    = undef,
+  $pg_jdbc_path      = undef,
+  $instances_dir     = '/usr/local/tomcat_instances',
+  $config_file       = undef,
+  $environment       = undef,
+  $public_logs       = false,
 ) {
 
   include ::tomcat_instance_framework
+
   Exec    { require => Class['tomcat_instance_framework'] }
   File    { require => Class['tomcat_instance_framework'] }
   Service { require => Class['tomcat_instance_framework'] }

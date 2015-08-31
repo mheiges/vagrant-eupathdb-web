@@ -1,9 +1,9 @@
 
-define tomcat_instance_framework::tomcat_instance() {
+define tomcat_instance_framework::tomcat_instance(
+  $instances_data = undef
+) {
 
   include tomcat_instance_framework
-
-  $instances_data = hiera('tomcat_instance_framework::instances')
 
   $ensure         = $instances_data[$name]['ensure']
   $http_port      = $instances_data[$name]['http_port']

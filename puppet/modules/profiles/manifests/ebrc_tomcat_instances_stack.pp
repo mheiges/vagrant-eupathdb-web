@@ -20,5 +20,4 @@ class profiles::ebrc_tomcat_instances_stack {
 
   create_resources('tomcat_instance_framework::instance', $instances_data)
   
-  #Class['tomcat_instance_framework'] -> Class['tomcat_instance_framework::instance']
 }

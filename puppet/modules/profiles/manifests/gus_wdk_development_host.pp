@@ -1,17 +1,6 @@
-# Manage infrastructure for hosting WDK applications. For example, TemplateDB.
+# Manage minimal infrastructure for hosting WDK applications. For example, TemplateDB.
 
-class profiles::gus_wdk_development_host ( $foo = undef) {
-
-  stage { 'pre':
-    before => Stage["main"],
-  }
-
-  class{ '::ebrc_yum_repo':
-    stage => 'pre'
-  }
-  class{ '::epel':
-    stage => 'pre'
-  }
+class profiles::gus_wdk_development_host {
 
   include ::profiles::ebrc_ca_bundle
   include ::profiles::ebrc_java_stack
@@ -27,8 +16,8 @@ class profiles::gus_wdk_development_host ( $foo = undef) {
   include ::ebrc_packages::make
   include ::ebrc_packages::gcc
   include ::ebrc_packages::subversion
-  include ::ebrc_packages::npm # GUS webinstall
-  include ::ebrc_packages::nodejs # GUS webinstall
-  include ::ebrc_packages::perl-YAML # generateFilesFromTemplates, et al.
+  include ::ebrc_packages::npm                # GUS webinstall
+  include ::ebrc_packages::nodejs             # GUS webinstall
+  include ::ebrc_packages::perl_yaml          # generateFilesFromTemplates, et al.
 
 }

@@ -2,4 +2,15 @@ Package {
   allow_virtual => true,
 }
 
-class { '::firewall_impl': }
+include ::firewall_impl
+
+stage { 'pre':
+  before => Stage["main"],
+}
+
+class{ '::ebrc_yum_repo':
+  stage => 'pre'
+}
+class{ '::epel':
+  stage => 'pre'
+}

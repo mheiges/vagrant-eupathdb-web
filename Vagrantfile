@@ -18,26 +18,32 @@ Vagrant.configure('2') do |config|
 
   config.vm.define args[:hostname] do |virtm|
 
-     config.vm.network :private_network, type: :dhcp
-     config.vm.synced_folder ".", "/vagrant", type: "nfs"
+    config.vm.network :private_network, type: :dhcp
+    config.vm.synced_folder ".", "/vagrant", type: :nfs
 
     config.vm.hostname = "#{args[:hostname]}" 
 
     config.vm.network :forwarded_port, guest: 80, host: 1080, auto_correct: true
     config.vm.network :forwarded_port, guest: 443, host: 10443, auto_correct: true
-#    config.vm.network :forwarded_port, guest: 9380, host: 9380, auto_correct: true
 
     config.vm.provision :ansible do |ansible|
       ansible.playbook = "playbook.yml"
     end
 
+#     config.vm.provision :puppet do |puppet|
+#       #puppet.options = '--disable_warnings=deprecations'
+#       puppet.manifests_path = 'puppet/manifests'
+#       puppet.manifest_file = ''
+#       puppet.hiera_config_path = 'puppet/hiera.yaml'
+#       puppet.module_path = ['puppet/modules', 'puppet/modules/forge', 'puppet/modules/custom']
+#     end
     config.vm.provision :puppet do |puppet|
-      puppet.options = '--disable_warnings=deprecations'
-      puppet.manifests_path = 'puppet/manifests'
-      puppet.manifest_file = ''
+      #puppet.options = '--verbose --debug'
       puppet.hiera_config_path = 'puppet/hiera.yaml'
-      puppet.module_path = ['puppet/modules', 'puppet/modules/forge', 'puppet/modules/custom']
+      puppet.environment_path = 'puppet/environments'
+      puppet.environment = 'production'
     end
+
 
     config.vm.provider :virtualbox do |v|
       v.name = "#{args[:hostname]}"

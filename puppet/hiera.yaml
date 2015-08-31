@@ -9,13 +9,8 @@
     :datadir: /vagrant/puppet/hieradata
 
 :hierarchy:
-    - %{fqdn}
-    - %{domain}
-    - %{roles}
-    - %{role}
-    - %{calling_class}
+    - "%{::fqdn}"
+    - "%{::domain}"
     - common
     
-:logger:
-    - puppet
-
+:logger: puppet

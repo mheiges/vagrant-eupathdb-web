@@ -1,5 +1,1 @@
-
-
-include roles::wdk_templatedb
-
-
+include roles::wdk_templatedb_demo

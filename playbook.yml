@@ -7,7 +7,13 @@
   tasks:
 
     - yum: name=git
-    - yum: name=rubygem-deep_merge
+
+  #    - yum: name=rubygem-deep_merge
+    - gem: name=deep_merge
+           state=present
+           executable=/opt/puppetlabs/puppet/bin/gem
+           user_install=no
+      sudo: yes
 
     - name: add git host to known_hosts
       known_hosts: path="/home/vagrant/.ssh/known_hosts"

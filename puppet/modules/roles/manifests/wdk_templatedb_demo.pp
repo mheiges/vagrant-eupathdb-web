@@ -1,5 +1,8 @@
-# Provision a minimal host for WDK-Strategies TemplateDB. Includes development tools
-# to build from WDK source code.
+# Provision a host that demonstrates the WDK-Strategies TemplateDB.
+# Includes development tools to build from WDK source code and
+# Postgresql server to host template data. The HTTP port for the
+# Tomcat instance is open in the firewall. There is no Apache HTTP Server
+# fronting so web access is through the 9380 Tomcat instance port.
 
 class roles::wdk_templatedb_demo {
 
@@ -7,6 +10,7 @@ class roles::wdk_templatedb_demo {
   include ::profiles::ebrc_postgresql94_jdbc
   include ::profiles::ebrc_postgresql94_client
   include ::profiles::ebrc_postgresql94_server
+  include ::ebrc_packages::emacs
 
   $global = hiera('tomcat_instance_framework::global')
 
