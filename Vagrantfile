@@ -30,13 +30,6 @@ Vagrant.configure('2') do |config|
       ansible.playbook = "playbook.yml"
     end
 
-#     config.vm.provision :puppet do |puppet|
-#       #puppet.options = '--disable_warnings=deprecations'
-#       puppet.manifests_path = 'puppet/manifests'
-#       puppet.manifest_file = ''
-#       puppet.hiera_config_path = 'puppet/hiera.yaml'
-#       puppet.module_path = ['puppet/modules', 'puppet/modules/forge', 'puppet/modules/custom']
-#     end
     config.vm.provision :puppet do |puppet|
       #puppet.options = '--verbose --debug'
       puppet.hiera_config_path = 'puppet/hiera.yaml'
